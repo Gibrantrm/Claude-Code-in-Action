@@ -18,9 +18,6 @@ jobs:
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./uigen
     permissions:
       contents: read
       pull-requests: read
@@ -34,16 +31,18 @@ jobs:
           fetch-depth: 1
       - name: Project Setup
         run: |
-          cd uigen
+          # 1. Buscamos dónde rayos está el package.json y entramos ahí
+          cd $(find . -name "package.json" -printf '%h' -quit)
+          
+          # 2. Instalamos y corremos todo desde esa carpeta
           npm run setup
-          npm run dev:daemon
+          npm run dev:daemon &
 
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          project_path: ./uigen
 
           custom_instructions: |
             The project is already set up with all dependencies installed.
