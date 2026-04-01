@@ -32,9 +32,11 @@ jobs:
 
       - name: Project Setup
         run: |
-          # Buscamos el package.json y entramos a esa carpeta
           cd $(find . -name "package.json" -printf '%h' -quit)
+          npm install
           npm run setup
+          # ESTO ES LO QUE FALTABA: Instalar el navegador en la máquina de GitHub
+          npx playwright install chromium --with-deps
           npm run dev:daemon &
 
       - name: Run Claude Code
@@ -42,32 +44,19 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Importante para que sepa dónde está el código
           project_path: ./uigen
-
-          custom_instructions: |
-            The project is already set up in the 'uigen' directory.
-            The server is running at http://localhost:3000.
-            Use mcp__playwright tools to interact with the UI.
 
           mcp_config: |
             {
               "mcpServers": {
                 "playwright": {
                   "command": "npx",
-                  "args": [
-                    "-y",
-                    "@playwright/mcp@latest",
-                    "--allowed-origins",
-                    "http://localhost:3000",
-                    "https://cdn.tailwindcss.com",
-                    "https://esm.sh"
-                  ]
+                  "args": ["-y", "@playwright/mcp@latest"]
                 }
               }
             }
           
-          # Lista explícita sin puntos suspensivos
+          # Mantenemos la lista explícita para que no falle por seguridad
           allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_navigate,mcp__playwright__browser_screenshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_press,mcp__playwright__browser_wait_for_selector"
           
           additional_permissions: |
