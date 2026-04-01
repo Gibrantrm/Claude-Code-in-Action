@@ -65,7 +65,7 @@ jobs:
                 }
               }
             }
-          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."
+          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_navigate,mcp__playwright__browser_screenshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_press,mcp__playwright__browser_wait_for_selector"
           # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
             actions: read
