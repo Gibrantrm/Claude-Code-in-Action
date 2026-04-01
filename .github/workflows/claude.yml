@@ -23,18 +23,17 @@ jobs:
       pull-requests: read
       issues: read
       id-token: write
-      actions: read # Required for Claude to read CI results on PRs
+      actions: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
       - name: Project Setup
         run: |
-          # 1. Buscamos dónde rayos está el package.json y entramos ahí
+          # Buscamos el package.json y entramos a esa carpeta
           cd $(find . -name "package.json" -printf '%h' -quit)
-          
-          # 2. Instalamos y corremos todo desde esa carpeta
           npm run setup
           npm run dev:daemon &
 
@@ -43,14 +42,13 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Importante para que sepa dónde está el código
+          project_path: ./uigen
 
           custom_instructions: |
-            The project is already set up with all dependencies installed.
-            The server is already running at localhost:3000. Logs from it
-            are being written to logs.txt. If needed, you can query the
-            db with the 'sqlite3' cli. If needed, use the mcp__playwright
-            set of tools to launch a browser and interact with the app.
-
+            The project is already set up in the 'uigen' directory.
+            The server is running at http://localhost:3000.
+            Use mcp__playwright tools to interact with the UI.
 
           mcp_config: |
             {
@@ -58,23 +56,19 @@ jobs:
                 "playwright": {
                   "command": "npx",
                   "args": [
+                    "-y",
                     "@playwright/mcp@latest",
                     "--allowed-origins",
-                    "localhost:3000;cdn.tailwindcss.com;esm.sh"
+                    "http://localhost:3000",
+                    "https://cdn.tailwindcss.com",
+                    "https://esm.sh"
                   ]
                 }
               }
             }
+          
+          # Lista explícita sin puntos suspensivos
           allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_navigate,mcp__playwright__browser_screenshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_press,mcp__playwright__browser_wait_for_selector"
-          # This is an optional setting that allows Claude to read CI results on PRs
+          
           additional_permissions: |
             actions: read
-
-          # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
-          # prompt: 'Update the pull request description to include a summary of changes.'
-
-          # Optional: Add claude_args to customize behavior and configuration
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
-          # claude_args: '--allowed-tools Bash(gh pr:*)'
-
