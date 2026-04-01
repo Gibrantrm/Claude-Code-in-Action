@@ -30,8 +30,8 @@ jobs:
         with:
           fetch-depth: 1
       - name: Project Setup
-        working-directory: ./uigen
         run: |
+          cd uigen
           npm run setup
           npm run dev:daemon
 
