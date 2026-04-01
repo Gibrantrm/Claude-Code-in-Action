@@ -1,0 +1,63 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - heading "React Component Generator" [level=1] [ref=e7]
+      - generic [ref=e9]:
+        - generic [ref=e14]:
+          - img [ref=e16]
+          - paragraph [ref=e19]: Start a conversation to generate React components
+          - paragraph [ref=e20]: I can help you create buttons, forms, cards, and more
+        - generic [ref=e23]:
+          - textbox "Describe the React component you want to create..." [ref=e24]
+          - button [disabled] [ref=e25]:
+            - img [ref=e26]
+    - separator [ref=e29]
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - tablist [ref=e34]:
+          - tab "Preview" [selected] [ref=e35]
+          - tab "Code" [ref=e36]
+        - generic [ref=e37]:
+          - combobox [expanded] [ref=e43]:
+            - img
+            - text: "Design #34539"
+            - img
+          - button "New Design" [ref=e38]:
+            - img
+            - text: New Design
+          - button "Sign out" [ref=e39]:
+            - img
+      - generic [ref=e45]:
+        - img [ref=e47]
+        - heading "Welcome to UI Generator" [level=3] [ref=e49]
+        - paragraph [ref=e50]: Start building React components with AI assistance
+        - paragraph [ref=e51]: Ask the AI to create your first component to see it live here
+  - generic [ref=e57] [cursor=pointer]:
+    - button "Open issues overlay" [ref=e58]:
+      - img [ref=e60]
+      - generic [ref=e62]:
+        - generic [ref=e63]: "0"
+        - generic [ref=e64]: "1"
+      - generic [ref=e65]: Issue
+    - button "Collapse issues badge" [ref=e66]:
+      - img [ref=e67]
+  - alert [ref=e69]
+  - dialog [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e74]:
+        - img [ref=e75]
+        - combobox [expanded] [active] [ref=e78]
+      - listbox "Suggestions" [ref=e79]:
+        - group [ref=e81]:
+          - 'option "Design #34539" [selected] [ref=e82]':
+            - generic [ref=e84]: "Design #34539"
+          - 'option "Design #50173" [ref=e85]':
+            - generic [ref=e87]: "Design #50173"
+          - 'option "Design #87086" [ref=e88]':
+            - generic [ref=e90]: "Design #87086"
+          - 'option "Design #94749" [ref=e91]':
+            - generic [ref=e93]: "Design #94749"
+          - option "Design from 9:51:08 p.m." [ref=e94]:
+            - generic [ref=e96]: Design from 9:51:08 p.m.
+          - 'option "New Design #66561" [ref=e97]':
+            - generic [ref=e99]: "New Design #66561"
